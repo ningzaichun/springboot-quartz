@@ -1,10 +1,13 @@
 package com.nzc.quartz.job;
 
+import com.nzc.quartz.service.IQuartzJobService;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
@@ -13,9 +16,13 @@ import java.time.LocalDateTime;
  * 
  * @Author nzc
  */
+@Component
 @Slf4j
 public class SampleParamJob implements Job {
 
+
+	@Autowired
+	private IQuartzJobService quartzJobService;
 	/**
 	 * 若参数变量名修改 QuartzJobController中也需对应修改
 	 */
@@ -27,6 +34,7 @@ public class SampleParamJob implements Job {
 
 	@Override
 	public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-		log.info(String.format("welcome %s! Jeecg-Boot 带参数定时任务 SampleParamJob !   时间:" + LocalDateTime.now(), this.parameter));
+		log.info(String.format("welcome %s! Ning zaichun 带参数定时任务 SampleParamJob !   时间:" + LocalDateTime.now(), this.parameter));
+		quartzJobService.test(this.parameter);
 	}
 }

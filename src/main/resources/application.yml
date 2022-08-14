@@ -1,10 +1,6 @@
 server:
   port: 8088
 spring:
-  servlet:
-    multipart:
-      max-file-size: 10MB
-      max-request-size: 10MB
   ## quartz定时任务,采用数据库方式
   quartz:
     job-store-type: jdbc
@@ -17,6 +13,11 @@ spring:
     username: root
     password: 123456
     driver-class-name: com.mysql.jdbc.Driver
+  jta:
+    atomikos:
+      properties:
+        recovery:
+          forget-orphaned-log-entries-delay:
 #mybatis plus 设置
 mybatis-plus:
   mapper-locations: classpath:/xml/*
@@ -33,3 +34,5 @@ mybatis-plus:
     #log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     # 返回类型为Map,显示null对应的字段
     call-setters-on-nulls: true
+    log-impl:   org.apache.ibatis.logging.stdout.StdOutImpl
+

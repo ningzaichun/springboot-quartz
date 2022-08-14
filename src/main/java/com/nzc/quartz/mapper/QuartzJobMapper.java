@@ -16,7 +16,5 @@ import org.apache.ibatis.annotations.Select;
 @Mapper
 public interface QuartzJobMapper extends BaseMapper<QuartzJob> {
 
-    @Select("select * from  sys_quartz_job  where job_class_name = #{jobClassName}")
-    public List<QuartzJob> findByJobClassName(@Param("jobClassName") String jobClassName);
 
 }

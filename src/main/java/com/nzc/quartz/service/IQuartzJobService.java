@@ -13,8 +13,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IQuartzJobService extends IService<QuartzJob> {
 
-	List<QuartzJob> findByJobClassName(String jobClassName);
-
 	boolean saveAndScheduleJob(QuartzJob quartzJob);
 
 	boolean editAndScheduleJob(QuartzJob quartzJob) throws SchedulerException;
@@ -22,4 +20,6 @@ public interface IQuartzJobService extends IService<QuartzJob> {
 	boolean deleteAndStopJob(QuartzJob quartzJob);
 
 	boolean resumeJob(QuartzJob quartzJob);
+
+	void test(String param);
 }

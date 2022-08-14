@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.nzc.quartz.common.CommonConstant;
 import com.nzc.quartz.common.Result;
 import com.nzc.quartz.entity.QuartzJob;
@@ -62,7 +63,7 @@ public class QuartzJobController {
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public Result<?> add(@RequestBody QuartzJob quartzJob) {
-		List<QuartzJob> list = quartzJobService.findByJobClassName(quartzJob.getJobClassName());
+		List<QuartzJob> list = quartzJobService.list(new QueryWrapper<QuartzJob>().eq("job_class_name", quartzJob.getJobClassName()));
 		if (list != null && list.size() > 0) {
 			return Result.error("该定时任务类名已存在");
 		}

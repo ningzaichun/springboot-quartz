@@ -38,10 +38,6 @@ public class QuartzJobServiceImpl extends ServiceImpl<QuartzJobMapper, QuartzJob
 	@Autowired
 	private Scheduler scheduler;
 
-	@Override
-	public List<QuartzJob> findByJobClassName(String jobClassName) {
-		return quartzJobMapper.findByJobClassName(jobClassName);
-	}
 
 	/**
 	 * 保存&启动定时任务
@@ -65,6 +61,11 @@ public class QuartzJobServiceImpl extends ServiceImpl<QuartzJobMapper, QuartzJob
 		schedulerAdd(quartzJob.getJobClassName().trim(), quartzJob.getCronExpression().trim(), quartzJob.getParameter());
 		quartzJob.setStatus(CommonConstant.STATUS_NORMAL);
 		return this.updateById(quartzJob);
+	}
+
+	@Override
+	public void test(String param) {
+		System.out.println("param====>"+param);
 	}
 
 	/**
@@ -129,8 +130,11 @@ public class QuartzJobServiceImpl extends ServiceImpl<QuartzJobMapper, QuartzJob
 	 */
 	private void schedulerDelete(String jobClassName) {
 		try {
+			/*使用给定的键暂停Trigger 。*/
 			scheduler.pauseTrigger(TriggerKey.triggerKey(jobClassName));
+			/*从调度程序中删除指示的Trigger */
 			scheduler.unscheduleJob(TriggerKey.triggerKey(jobClassName));
+			/*从 Scheduler 中删除已识别的Job - 以及任何关联的Trigger */
 			scheduler.deleteJob(JobKey.jobKey(jobClassName));
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -142,5 +146,8 @@ public class QuartzJobServiceImpl extends ServiceImpl<QuartzJobMapper, QuartzJob
 		Class<?> class1 = Class.forName(classname);
 		return (Job) class1.newInstance();
 	}
+
+
+
 
 }
